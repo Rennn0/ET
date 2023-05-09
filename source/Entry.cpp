@@ -1,4 +1,4 @@
-#include"Entry.h"
+#include"../headers/Entry.h"
 #include"qeventloop.h"
 #include"qtimer.h"
 
@@ -6,7 +6,7 @@ Entry::Entry(QWidget* parent) :
     QDialog(parent), entryUi(new Ui::Entry)
 {
     entryUi->setupUi(this);
-    setWindowIcon(QIcon("main.ico"));
+    setWindowIcon(QIcon("MAIN"));
     entryUi->password->setEchoMode(QLineEdit::Password);
 
     QMenuBar* menu = new QMenuBar(this);

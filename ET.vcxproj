@@ -66,6 +66,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />
@@ -73,6 +76,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -99,29 +105,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="User.qrc" />
-    <QtUic Include="Entry.ui" />
-    <QtUic Include="User.ui" />
-    <QtMoc Include="User.h" />
-    <ClCompile Include="Entry.cpp" />
-    <ClCompile Include="User.cpp" />
+    <QtUic Include="UI\Entry.ui" />
+    <QtUic Include="UI\User.ui" />
+    <QtMoc Include="headers\User.h" />
+    <ClCompile Include="source\core.cpp" />
+    <ClCompile Include="source\Entry.cpp" />
+    <ClCompile Include="source\User.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Entry.h" />
+    <QtMoc Include="headers\Entry.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="main.ico" />
+    <Image Include="UI\main.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
+    <ResourceCompile Include="UI\ET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ET.rc" />
+    <None Include="process\data_generator.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\core.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
