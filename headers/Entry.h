@@ -1,14 +1,11 @@
-#pragma once
-#ifndef ENTRY
-#define ENTRY
-#include <QVBoxLayout>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QCoreApplication>
+#include <QTimer>
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QBoxLayout>
+#include <QMenuBar>
+#include <QDialog>
 #include"User.h"
 #include"ui_Entry.h"
-
 class Entry : public QDialog {
 	Q_OBJECT;
 public:
@@ -21,6 +18,3 @@ private slots:
 private:
 	Ui::Entry* entryUi;
 };
-
-
-#endif // !ENTRY

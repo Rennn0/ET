@@ -43,6 +43,9 @@
     <ClCompile Include="source\core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="UI\Entry.ui">
@@ -61,6 +64,12 @@
     <Image Include="UI\main.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="UI\pc.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="UI\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UI\ET.rc">
@@ -69,9 +78,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="process\data_generator.exe" />
+    <None Include="pch.h.gch" />
+    <None Include="UI\ET.APS" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

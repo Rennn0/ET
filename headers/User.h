@@ -1,13 +1,10 @@
-#pragma once
-#include<QMainWindow>
-#include<QIcon>
-#include<QProcess>
-#include<QDir>
-#include<qdialog.h>
-#include<iostream>
-#include<fstream>
-#include"ui_User.h"
+#include <QDesktopServices>
+#include <QIntValidator>
+#include <QFileDialog>
+#include <QPainter>
 #include"core.h"
+#include"ui_User.h"
+
 
 class User : public QMainWindow
 {
@@ -19,11 +16,17 @@ public:
 
 private:
     Ui::User* userUi;
-    QString fileName,fileLocation;
-    
-private slots:
+    QString fileName{}, folder{}, fileLocation{}, genLocation{}, resultName{};
+    int totalExams, studentLimit;
+    QIntValidator* validator=new QIntValidator(1,INT_MAX,this);
+    bool isLoading = false;
 
+
+private slots:
     void dataGeneratorProcess();
+    void createProcess();
     void openStats();
     void openTxt();
+    void openPC();
 };
+

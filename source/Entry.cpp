@@ -1,6 +1,4 @@
 #include"../headers/Entry.h"
-#include"qeventloop.h"
-#include"qtimer.h"
 
 Entry::Entry(QWidget* parent) :
     QDialog(parent), entryUi(new Ui::Entry)

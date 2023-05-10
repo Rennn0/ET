@@ -1,23 +1,13 @@
-#pragma once
-#include<fstream>
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<ctime>
-#include<chrono>
-#include<tuple>
-#include<list>
-#include<set>
-#include<map>
-#include<span>
-#include<unordered_map>
-#include<sstream>
-#include<filesystem>
+namespace ET {
+	class format_error :public std::exception {};
+}
+
+typedef std::string str;
 class Core {
 
-public:
-	Core() = default;
-	
 
-	static int generate(std::string,std::string);
+public:
+	
+	static int generate(str, str, str);
+	static bool start(str genFile, int& examN, int& studL, str genName);
 };
