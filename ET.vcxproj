@@ -146,7 +146,6 @@
     <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Icon1.ico" />
     <Image Include="UI\icon1.ico" />
     <Image Include="UI\main.ico" />
     <Image Include="UI\pc.png" />
@@ -155,7 +154,6 @@
     <ResourceCompile Include="UI\ET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="loading.qml" />
     <None Include="pch.h.gch" />
     <None Include="process\data_generator.exe" />
     <None Include="UI\ET.APS" />
