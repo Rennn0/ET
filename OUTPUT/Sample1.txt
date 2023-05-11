@@ -1,0 +1,15 @@
+a
+  a   a
+  b   b
+  c   b
+  b   b
+b
+  c   c
+  Ab   eb
+  c   casd
+  Ab   asdaseb
+  c   c
+  Ab   ebdd
+f
+  a   a
+  g   b

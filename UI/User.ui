@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>810</width>
-    <height>543</height>
+    <width>1157</width>
+    <height>609</height>
    </size>
   </property>
   <property name="palette">
@@ -469,7 +469,8 @@
    <string>User</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="address-book-new"/>
+   <iconset theme="address-book-new">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="palette">
@@ -2191,8 +2192,11 @@
       <x>480</x>
       <y>60</y>
       <width>21</width>
-      <height>22</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>...</string>
@@ -2204,8 +2208,11 @@
       <x>480</x>
       <y>160</y>
       <width>21</width>
-      <height>22</height>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>...</string>
@@ -2686,8 +2693,11 @@
       <x>1080</x>
       <y>160</y>
       <width>21</width>
-      <height>22</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>...</string>
@@ -2699,8 +2709,11 @@
       <x>1080</x>
       <y>60</y>
       <width>21</width>
-      <height>22</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>...</string>
@@ -3198,11 +3211,14 @@
    <widget class="QPushButton" name="PC">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>21</width>
-      <height>21</height>
+      <x>180</x>
+      <y>50</y>
+      <width>41</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>PC</string>
@@ -3252,6 +3268,32 @@
     </property>
     <property name="flat">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveResult">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>60</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveIDMap">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>160</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
     </property>
    </widget>
   </widget>

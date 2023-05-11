@@ -4,7 +4,7 @@
 
 
 User::User(QWidget* parent)
-    : QMainWindow(parent), userUi(new Ui::User),totalExams(0),studentLimit(0)
+    : QMainWindow(parent), userUi(new Ui::User),totalExams(0),studentLimit(2400)
 {
     userUi->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -19,6 +19,8 @@ User::User(QWidget* parent)
     userUi->createButton->setEnabled(false);
     userUi->openIDMap->setEnabled(false);
     userUi->openResult->setEnabled(false);
+    userUi->saveIDMap->setEnabled(false);
+    userUi->saveResult->setEnabled(false);
 
     userUi->studentLimit->setText(QString::number(studentLimit));
     userUi->totalExams->setText(QString::number(totalExams));
@@ -48,8 +50,8 @@ void User::dataGeneratorProcess() {
         fileName = sample;
     }
     else
-        fileName = userUi->fileName->text();
- 
+    fileName = userUi->fileName->text();
+    
     folder = QFileInfo(fileLocation).absolutePath();
     genLocation = folder+ "/OUTPUT/" + fileName + ".txt";
    
@@ -82,6 +84,7 @@ void User::dataGeneratorProcess() {
     userUi->studentLimit->setEnabled(true);
     userUi->outputName->setEnabled(true);
     userUi->createButton->setEnabled(true);
+
 }
 
 void User::openStats() {
@@ -94,13 +97,40 @@ void User::openTxt() {
     QDesktopServices::openUrl(QUrl::fromLocalFile(file));
 }
 
+void User::openResults()
+{
+    QString file = folder + "/OUTPUT/RESULT/" + resultName + ".txt";
+    QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+}
+
+void User::openIDMap()
+{
+    QString file = folder + "/OUTPUT/RESULT/" + resultName + "IDMap.txt";
+    QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+}
 void User::openPC() {
-    fileLocation = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("CSV Files(*.csv);;Test Files (*.txt);;All Files(*)"));
+    fileLocation = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt);;CSV Files(*.csv);;All Files(*)"));
     userUi->fileLoc->setText(fileLocation);
 }
 
 void User::createProcess() {
+    resultName = userUi->outputName->text();
+    studentLimit=userUi->studentLimit->text().toUInt();
     
-    //bool process=Core::start(genLocation.toStdString(), totalExams, studentLimit, resultName.toStdString());
+    core = new Core(genLocation.toStdString(), folder.toStdString(), resultName.toStdString(), studentLimit, totalExams);
+
+    core->hashmap();
+    try
+    {
+        core->check_limit();
+    }
+    catch (const ET::limit_error&)
+    {
+        userUi->resultIDMap->setText("Limit is Low");
+        return;
+    }
+
+    core->sort_mtavari_exam();
+    
     
 }

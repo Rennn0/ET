@@ -5,7 +5,6 @@
 #include"core.h"
 #include"ui_User.h"
 
-
 class User : public QMainWindow
 {
     Q_OBJECT
@@ -15,12 +14,11 @@ public:
     ~User();
 
 private:
+    Core* core=nullptr;
     Ui::User* userUi;
     QString fileName{}, folder{}, fileLocation{}, genLocation{}, resultName{};
-    int totalExams, studentLimit;
+    uint16_t totalExams, studentLimit;
     QIntValidator* validator=new QIntValidator(1,INT_MAX,this);
-    bool isLoading = false;
-
 
 private slots:
     void dataGeneratorProcess();
@@ -28,5 +26,7 @@ private slots:
     void openStats();
     void openTxt();
     void openPC();
+    void openResults();
+    void openIDMap();
 };
 
