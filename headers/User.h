@@ -28,5 +28,7 @@ private slots:
     void openPC();
     void openResults();
     void openIDMap();
+    void saveResult();
+    void saveIDMap();
 };
 

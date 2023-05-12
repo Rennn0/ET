@@ -90,6 +90,48 @@ void Core::print()
     }
 }
 
+bool Core::has_matching_IDs(const std::vector<uint16_t>& v1, const std::vector<uint16_t>& v2)
+{
+    return std::find_first_of(v1.begin(), v1.end(), v2.begin(), v2.end()) != v1.end();
+}
+
+void Core::save_result()
+{
+    std::ofstream out(folder + "/OUTPUT/RESULT/" + resultName + ".txt");
+    uint16_t N = 1;
+    for (const auto& sesia : sesiebi) {
+        int total_std = 0;
+        for (const auto& vect : sesia) 
+            total_std += vect->studIDs.size();
+
+        out << "Session #" << N++ << " ;  Students " << total_std << '\n';
+        for (const auto& vect : sesia) {
+                out<< vect->exam << " _ { ";
+            for (const auto& ids : vect->studIDs) {
+                out << ids << ',';
+            }
+            out << " }\n";
+        }
+            out << "\n\n";
+    }
+}
+
+void Core::save_IDMap()
+{
+    std::ofstream out(folder + "/OUTPUT/RESULT/" + resultName + "IDMap.txt");
+    for (const auto& [key, value] : ID_map)
+        out << key << ' ' << value << '\n';
+    
+}
+
+void Core::newDir()
+{
+    if (!newDireExicsts) {
+        std::filesystem::create_directories(folder + "/OUTPUT/RESULT/");
+        newDireExicsts = true;
+    }
+}
+
 void Core::hashmap()
 {
     uint16_t indexCounter = -1, ID=1;
@@ -113,17 +155,38 @@ void Core::hashmap()
     invertMap(&tempMap);
 }
 
-void Core::newDir(str& folder,str& genName)
-{
-    str suffix = "/OUTPUT/RESULT/";
-    std::filesystem::create_directories(folder+suffix);
-    std::ofstream resultFile(folder +suffix + genName + ".txt");
-}
-
 Core::Core(str&& fL, str&& f, str&& rN, uint16_t l, uint16_t tE)
     :fileLocation(fL), folder(f), resultName(rN),LIMIT(l),totalExams(tE),mtavari_exam_ptr(new exam_[tE])
 {
     std::ofstream fd(folder+"/Logs.txt" , std::ios::app);
     fd << fileLocation <<' ' << folder << ' ' << resultName << ' ' << LIMIT << ' ' << totalExams << '\n';
+}
+
+void Core::sesiebis_dalageba()
+{
+    std::map<uint16_t, bool> picked;
+    while (picked.size() < totalExams) {
+        std::vector<exam_*> args;
+        int accumulated = 0;
+        for (size_t i = 0; i < totalExams; i++) {
+            if (picked.find(i) == picked.end() && accumulated + mtavari_exam_ptr[i].studIDs.size() <= LIMIT) {
+                bool match = 0;
+                for (const auto& arg : args) {
+                    if (has_matching_IDs(mtavari_exam_ptr[i].studIDs, arg->studIDs)) {
+                        match = 1;
+                        break;
+                    }
+                }
+                if (!match) {
+                    args.push_back(&mtavari_exam_ptr[i]);
+                    picked[i] = true;
+                    accumulated += mtavari_exam_ptr[i].studIDs.size();
+                }
+            }
+            if (accumulated >= LIMIT)
+                break;
+        }
+        sesiebi.push_back(args);
+    }
 }
 

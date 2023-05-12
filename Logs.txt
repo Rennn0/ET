@@ -1,0 +1,2 @@
+C:/Dev/Qt/ET/OUTPUT/Sample1.txt C:/Dev/Qt/ET Sample1 2400 3
+C:/Dev/Qt/ET/OUTPUT/Sample1.txt C:/Dev/Qt/ET dada 123 3

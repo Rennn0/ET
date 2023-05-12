@@ -2,7 +2,6 @@
 #include<QProgressBar>
 #include<QTimer>
 
-
 User::User(QWidget* parent)
     : QMainWindow(parent), userUi(new Ui::User),totalExams(0),studentLimit(2400)
 {
@@ -30,7 +29,10 @@ User::User(QWidget* parent)
     connect(userUi->openTxt, SIGNAL(clicked()), this, SLOT(openTxt()));
     connect(userUi->createButton, SIGNAL(clicked()), this, SLOT(createProcess()));
     connect(userUi->PC, SIGNAL(clicked()), this, SLOT(openPC()));
-
+    connect(userUi->saveResult, SIGNAL(clicked()), this, SLOT(saveResult()));
+    connect(userUi->saveIDMap, SIGNAL(clicked()), this, SLOT(saveIDMap()));
+    connect(userUi->openIDMap, SIGNAL(clicked()), this, SLOT(openIDMap()));
+    connect(userUi->openResult, SIGNAL(clicked()), this, SLOT(openResults()));
 }
 
 User::~User()
@@ -39,7 +41,6 @@ User::~User()
     delete this->validator;
 
 }
-
 
 void User::dataGeneratorProcess() {
     if (userUi->fileLoc->text() == "")return;
@@ -108,13 +109,33 @@ void User::openIDMap()
     QString file = folder + "/OUTPUT/RESULT/" + resultName + "IDMap.txt";
     QDesktopServices::openUrl(QUrl::fromLocalFile(file));
 }
+
+void User::saveResult()
+{
+    core->newDir();
+    core->save_result();
+    userUi->openResult->setEnabled(true);
+    userUi->saveResult->setText("Saved");
+    userUi->resultsLocation->setText("OUTPUT/RESULT/" + resultName + ".txt");
+}
+
+void User::saveIDMap()
+{
+    core->newDir();
+    core->save_IDMap();
+    userUi->openIDMap->setEnabled(true);
+    userUi->saveIDMap->setText("Saved");
+    userUi->resultIDMap->setText("OUTPUT/RESULT/" + resultName + "IDMap.txt");
+}
+
 void User::openPC() {
     fileLocation = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt);;CSV Files(*.csv);;All Files(*)"));
     userUi->fileLoc->setText(fileLocation);
 }
 
 void User::createProcess() {
-    resultName = userUi->outputName->text();
+    
+    resultName = (userUi->outputName->text() == "" ? fileName : userUi->outputName->text());
     studentLimit=userUi->studentLimit->text().toUInt();
     
     core = new Core(genLocation.toStdString(), folder.toStdString(), resultName.toStdString(), studentLimit, totalExams);
@@ -131,6 +152,13 @@ void User::createProcess() {
     }
 
     core->sort_mtavari_exam();
+    core->sesiebis_dalageba();
+
+    userUi->resultsLocation->setText("Result ready");
+    userUi->resultIDMap->setText("ID Map ready");
+    userUi->saveIDMap->setText("Save");
+    userUi->saveResult->setText("Save");
     
-    
+    userUi->saveIDMap->setEnabled(true);
+    userUi->saveResult->setEnabled(true);
 }
