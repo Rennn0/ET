@@ -36,6 +36,8 @@ public:
 	static int generate(str, str, str);
 	void hashmap();
 	void invertMap(std::map<str, uint16_t>*);
+	template<typename KEY, typename VALUE>
+	std::map<VALUE, KEY>revertMap(std::map<KEY, VALUE>*);
 	void sort_mtavari_exam();
 	bool check_limit();
 	void print();
@@ -45,3 +47,13 @@ public:
 	void newDir();
 	
 };
+
+template<typename KEY, typename VALUE>
+inline std::map<VALUE, KEY> Core::revertMap(std::map<KEY, VALUE>*mainMap)
+{
+	std::map<VALUE, KEY>tempMap;
+	for (const auto& pair : *mainMap) {
+		tempMap.insert(std::make_pair(pair.second, pair.first));
+	}
+	return tempMap;
+}

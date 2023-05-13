@@ -1,7 +1,6 @@
 #include <QDesktopServices>
 #include <QIntValidator>
 #include <QFileDialog>
-#include <QPainter>
 #include"core.h"
 #include"ui_User.h"
 
@@ -15,6 +14,7 @@ public:
 
 private:
     Core* core=nullptr;
+    std::map<str, uint16_t>studentMap{};
     Ui::User* userUi;
     QString fileName{}, folder{}, fileLocation{}, genLocation{}, resultName{};
     uint16_t totalExams, studentLimit;
@@ -33,5 +33,7 @@ private slots:
     void display();
     void onItemClicked(QTreeWidgetItem* item, int column);
     void enableCreate();
+    void searchByID();
+    void searchByStudent();
 };
 

@@ -1,7 +1,7 @@
 #include"../headers/User.h"
 #include<QListWidget>
 #include<QScrollArea>
-
+#include<QToolTip>
 User::User(QWidget* parent)
     : QMainWindow(parent), userUi(new Ui::User),totalExams(0),studentLimit(2400)
 {
@@ -43,6 +43,7 @@ User::User(QWidget* parent)
     connect(userUi->displayBtn, SIGNAL(clicked()), this, SLOT(display()));
     connect(userUi->treeSession, &QTreeWidget::itemClicked, this, &User::onItemClicked);
     connect(userUi->studentLimit, &QLineEdit::textChanged, this, &User::enableCreate);
+    connect(userUi->outputName, &QLineEdit::textChanged, this, &User::enableCreate);
 }
 
 User::~User()
@@ -190,7 +191,11 @@ void User::display() {
         }
         sessionIndex++;
     }
-
+    studentMap = core->revertMap(&core->ID_map);
+    userUi->searchID->setValidator(validator);
+    userUi->displayBtn->setEnabled(false);
+    connect(userUi->searchID, &QLineEdit::returnPressed, this, &User::searchByID);
+    connect(userUi->searchStudent, &QLineEdit::returnPressed, this, &User::searchByStudent);
 }
 
 void User::onItemClicked(QTreeWidgetItem* item, int column)
@@ -204,12 +209,42 @@ void User::onItemClicked(QTreeWidgetItem* item, int column)
         const auto& exam = core->sesiebi[sessionIndex][examIndex];
 
         for (uint16_t& id : exam->studIDs) {
-            userUi->listWidget->addItem(QString::number(id));
+            QString studentInfo = QString::fromStdString(core->ID_map[id]);
+            QListWidgetItem* student = new QListWidgetItem;
+            student->setText(QString::number(id));
+            student->setToolTip(studentInfo);
+            userUi->listWidget->addItem(student);
         }
     }
 }
 
 void User::enableCreate()
 {
+    userUi->resultIDMap->setText("....");
+    userUi->resultsLocation->setText("....");
     userUi->createButton->setEnabled(true);
+}
+
+void User::searchByID()
+{
+    uint16_t ID = userUi->searchID->text().toUInt();
+    auto it = core->ID_map.find(ID);
+    if(it!=core->ID_map.end())
+    userUi->answerID->setText(QString::fromStdString(core->ID_map[ID]));
+    else {
+        QToolTip::showText(userUi->searchID->mapToGlobal(QPoint()), tr("ID not found"));
+        userUi->answerID->clear();
+    }
+}
+
+void User::searchByStudent()
+{
+    std::string student =" "+userUi->searchStudent->text().toStdString();
+    auto it = this->studentMap.find(student);
+    if(it!=this->studentMap.end())
+    userUi->answerStudent->setText(QString::number(studentMap[student]));
+    else {
+        QToolTip::showText(userUi->searchStudent->mapToGlobal(QPoint()), tr("Student not found"));
+        userUi->searchStudent->clear();
+    }
 }

@@ -13,7 +13,6 @@ public:
 	~Entry();
 private slots:
 	void onSubmit();
-	void textRequired(const QString& text);
 	void openInstruction();
 private:
 	Ui::Entry* entryUi;

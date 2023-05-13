@@ -20,9 +20,7 @@ Entry::Entry(QWidget* parent) :
     layout->setMenuBar(menu);
     layout->addLayout(this->layout());
     this->setLayout(layout);
-    ///////////////
-    connect(entryUi->name, &QLineEdit::textChanged, this, &Entry::textRequired);
-    connect(entryUi->password, &QLineEdit::textChanged, this, &Entry::textRequired);
+    
     connect(entryUi->submit, &QPushButton::clicked, this, &Entry::onSubmit);
 }
 
@@ -30,7 +28,7 @@ Entry::~Entry() { delete this->entryUi; }
 
 void Entry::onSubmit() {
     QString password = entryUi->password->text();
-    if (1) { // change to et2023
+    if (password=="et2023") { 
         QString name = entryUi->name->text();
         QString lastname = entryUi->lastname->text();
         User* user = new User(nullptr);
@@ -43,13 +41,6 @@ void Entry::onSubmit() {
     }
     else
         QMessageBox::critical(this, "Error", "Incorrect Password!");
-}
-
-void Entry::textRequired(const QString& text) {
-    bool N = !entryUi->name->text().isEmpty();
-    bool LN = !entryUi->lastname->text().isEmpty();
-    bool P = !entryUi->password->text().isEmpty();
-    entryUi->submit->setEnabled(N && LN &&P);
 }
 
 void Entry::openInstruction() {
