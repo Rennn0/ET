@@ -1,13 +1,13 @@
 #include"../headers/User.h"
-#include<QProgressBar>
-#include<QTimer>
+#include<QListWidget>
+#include<QScrollArea>
 
 User::User(QWidget* parent)
     : QMainWindow(parent), userUi(new Ui::User),totalExams(0),studentLimit(2400)
 {
     userUi->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    setWindowIcon(QIcon(":/MAIN/main.ico"));
+    setWindowIcon(QIcon("MAIN"));
     
     userUi->openStats->setEnabled(false);
     userUi->openTxt->setEnabled(false);
@@ -20,10 +20,17 @@ User::User(QWidget* parent)
     userUi->openResult->setEnabled(false);
     userUi->saveIDMap->setEnabled(false);
     userUi->saveResult->setEnabled(false);
+    userUi->displayBtn->setEnabled(false);
 
     userUi->studentLimit->setText(QString::number(studentLimit));
     userUi->totalExams->setText(QString::number(totalExams));
 
+    userUi->treeSession->setColumnCount(1);
+    userUi->treeSession->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    userUi->treeSession->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    userUi->listWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    userUi->listWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    
     connect(userUi->dataGenerator, SIGNAL(clicked()), this, SLOT(dataGeneratorProcess()));
     connect(userUi->openStats, SIGNAL(clicked()), this, SLOT(openStats()));
     connect(userUi->openTxt, SIGNAL(clicked()), this, SLOT(openTxt()));
@@ -33,6 +40,9 @@ User::User(QWidget* parent)
     connect(userUi->saveIDMap, SIGNAL(clicked()), this, SLOT(saveIDMap()));
     connect(userUi->openIDMap, SIGNAL(clicked()), this, SLOT(openIDMap()));
     connect(userUi->openResult, SIGNAL(clicked()), this, SLOT(openResults()));
+    connect(userUi->displayBtn, SIGNAL(clicked()), this, SLOT(display()));
+    connect(userUi->treeSession, &QTreeWidget::itemClicked, this, &User::onItemClicked);
+    connect(userUi->studentLimit, &QLineEdit::textChanged, this, &User::enableCreate);
 }
 
 User::~User()
@@ -161,4 +171,45 @@ void User::createProcess() {
     
     userUi->saveIDMap->setEnabled(true);
     userUi->saveResult->setEnabled(true);
+
+    userUi->displayBtn->setEnabled(true);
+    userUi->createButton->setEnabled(false);
+}
+
+void User::display() {
+    userUi->treeSession->clear();
+    userUi->listWidget->clear();
+    uint16_t sessionIndex = 0;
+    for (const auto& sesia : core->sesiebi) {
+        QTreeWidgetItem* sessionItem = new QTreeWidgetItem(userUi->treeSession);
+        sessionItem->setText(0, QString("Session %1").arg(sessionIndex + 1));
+
+        for (const auto& exams : sesia) {
+            QTreeWidgetItem* examItem = new QTreeWidgetItem(sessionItem);
+            examItem->setText(0, QString::fromStdString(exams->exam));
+        }
+        sessionIndex++;
+    }
+
+}
+
+void User::onItemClicked(QTreeWidgetItem* item, int column)
+{
+    if (item->parent() != nullptr) {
+        userUi->listWidget->clear();
+
+        int sessionIndex = userUi->treeSession->indexOfTopLevelItem(item->parent());
+        int examIndex = item->parent()->indexOfChild(item);
+
+        const auto& exam = core->sesiebi[sessionIndex][examIndex];
+
+        for (uint16_t& id : exam->studIDs) {
+            userUi->listWidget->addItem(QString::number(id));
+        }
+    }
+}
+
+void User::enableCreate()
+{
+    userUi->createButton->setEnabled(true);
 }

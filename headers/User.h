@@ -30,5 +30,8 @@ private slots:
     void openIDMap();
     void saveResult();
     void saveIDMap();
+    void display();
+    void onItemClicked(QTreeWidgetItem* item, int column);
+    void enableCreate();
 };
 

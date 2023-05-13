@@ -1,2 +1,1 @@
-MAIN                    ICON                    "main.ico"
-PC                      PNG                     "pc.png"
+MAIN                    ICON                    "./main.ico"

@@ -28,7 +28,7 @@ class Core : private uncopyable {
 	uint16_t LIMIT, totalExams;
 
 	bool newDireExicsts = false;
-
+	friend class User;
 public:
 
 	Core(str&& fL, str&& f, str&& rN, uint16_t l, uint16_t tE);
@@ -43,4 +43,5 @@ public:
 	void save_result();
 	void save_IDMap();
 	void newDir();
+	
 };
